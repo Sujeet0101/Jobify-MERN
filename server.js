@@ -1,5 +1,5 @@
 import express from 'express';
-
+import morgan from 'morgan';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -18,6 +18,9 @@ import errorHandlerMiddleware from './middleware/error-handler.js';
 
 const app = express();
 
+if(process.env.NODE_ENV !== 'production'){
+  app.use(morgan('dev'))
+}
 
 app.use(express.json());
 
