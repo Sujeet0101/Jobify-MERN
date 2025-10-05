@@ -7,7 +7,29 @@ import BigSidebar from "./BigSidebar";
 import FormRowSelect from "./FormRowSelect";
 import SearchContainer from "./SearchContainer";
 import JobsContainer from "./JobsContainer";
+import AreaChart from "./AreaChart";
+import BarChart from "./BarChart";
+import ChartsContainer from "./ChartsContainer";
+import PageBtnContainer from "./PageBtnContainer";
+import StatsItem from "./StatItem";
+import StatsContainer from "./StatsContainer";
+import Loading from "./Loading";
 
 
-
-export {Logo, FormRow, Alert, Navbar, SmallSidebar, BigSidebar, FormRowSelect, SearchContainer, JobsContainer}
+export {
+     Loading,
+     Logo,
+     FormRow, 
+     Alert, 
+     Navbar, 
+     SmallSidebar, 
+     BigSidebar, 
+     AreaChart, 
+     BarChart, 
+     ChartsContainer, 
+     PageBtnContainer, 
+     StatsItem, 
+     StatsContainer,
+     FormRowSelect, 
+     SearchContainer, 
+     JobsContainer}
