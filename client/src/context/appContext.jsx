@@ -107,23 +107,22 @@ const AppProvider = ({ children }) => {
     }
   );
 
-//   authFetch.interceptors.response.use(
-//     (response) => {
-//       return response;
-//     },
-//     (error) => {
-//       if (error.response) {
-//         console.log(error.response);
-//         if (error.response.status === 401) {
-//           console.log("AUTH ERROR");
-//         }
-//       } else {
-//         console.log("Network/Server error:", error.message);
-//       }
-//       return Promise.reject(error);
-//     }
-//   );
-
+  //   authFetch.interceptors.response.use(
+  //     (response) => {
+  //       return response;
+  //     },
+  //     (error) => {
+  //       if (error.response) {
+  //         console.log(error.response);
+  //         if (error.response.status === 401) {
+  //           console.log("AUTH ERROR");
+  //         }
+  //       } else {
+  //         console.log("Network/Server error:", error.message);
+  //       }
+  //       return Promise.reject(error);
+  //     }
+  //   );
 
   const displayAlert = () => {
     dispatch({ type: DISPALY_ALERT });
@@ -203,44 +202,43 @@ const AppProvider = ({ children }) => {
   };
 
   const updateUser = async (currentUser) => {
-    dispatch({type: UPDATE_USER_BEGIN})
+    dispatch({ type: UPDATE_USER_BEGIN });
     try {
       const { data } = await authFetch.patch("/auth/updateUser", currentUser);
 
-      const {user, location, token} = data;
+      const { user, location, token } = data;
 
       dispatch({
         type: UPDATE_USER_SUCCESS,
-        payload: { user,location, token}
-      })
-      addUserToLocalStorage({user, location, token})
+        payload: { user, location, token },
+      });
+      addUserToLocalStorage({ user, location, token });
     } catch (error) {
-      if(error.response.status !== 401 || error.response.status !== 500) {
+      if (error.response.status !== 401 && error.response.status !== 500) {
         dispatch({
           type: UPDATE_USER_ERROR,
           payload: { msg: error.response.data.msg },
         });
       }
-      
     }
-    cleartAlert()
+    cleartAlert();
   };
 
-  const handleChange = ({name, value}) => {
+  const handleChange = ({ name, value }) => {
     dispatch({
       type: HANDLE_CHANGE,
-      payload: {name, value}
-    })
-  }
+      payload: { name, value },
+    });
+  };
 
   const clearValues = () => {
-    dispatch({type: CLEAR_VALUES})
-  }
+    dispatch({ type: CLEAR_VALUES });
+  };
 
   const createJob = async () => {
-    dispatch({type: CREATE_JOB_BEGIN})
+    dispatch({ type: CREATE_JOB_BEGIN });
     try {
-      const {position, company, jobLocation, jobType, status} = state;
+      const { position, company, jobLocation, jobType, status } = state;
       await authFetch.post("/jobs", {
         position,
         company,
@@ -248,47 +246,48 @@ const AppProvider = ({ children }) => {
         jobType,
         status,
       });
-      dispatch({type: CREATE_JOB_SUCCESS})
-      dispatch({type: CLEAR_VALUES})
+      dispatch({ type: CREATE_JOB_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
     } catch (error) {
-      if(error.response.status === 401 || error.response.status === 500) return
+      if (error.response.status === 401 || error.response.status === 500)
+        return;
       dispatch({
         type: CREATE_JOB_ERROR,
-        payload: {msg: error.response.data.msg}
-      })
+        payload: { msg: error.response.data.msg },
+      });
     }
-    cleartAlert()   
-  }
+    cleartAlert();
+  };
 
   const getJobs = async () => {
     let url = "/jobs";
 
-    dispatch({type: GET_JOBS_BEGIN})
+    dispatch({ type: GET_JOBS_BEGIN });
     try {
-      const {data} = await authFetch(url);
-      const {jobs, totalJobs, numOfPages} = data;
+      const { data } = await authFetch(url);
+      const { jobs, totalJobs, numOfPages } = data;
       dispatch({
         type: GET_JOBS_SUCCESS,
-        payload: {jobs, totalJobs, numOfPages},
-      })
+        payload: { jobs, totalJobs, numOfPages },
+      });
     } catch (error) {
       //console.log(error.response);
-      logoutUser() 
+      logoutUser();
     }
-    cleartAlert()     
-  }
+    cleartAlert();
+  };
 
   const setEditJob = (id) => {
     dispatch({
       type: SET_EDIT_JOB,
-      payload: {id}
-    })
-  }
+      payload: { id },
+    });
+  };
 
   const editJob = async () => {
-    dispatch({type: EDIT_JOB_BEGIN})
+    dispatch({ type: EDIT_JOB_BEGIN });
     try {
-      const {position, company, jobLocation, jobType, status} = state;
+      const { position, company, jobLocation, jobType, status } = state;
       authFetch.patch(`/jobs/${state.editJobId}`, {
         company,
         position,
@@ -296,26 +295,26 @@ const AppProvider = ({ children }) => {
         jobType,
         status,
       });
-      dispatch({type: EDIT_JOB_SUCCESS})
-      dispatch({type: CLEAR_VALUES})
+      dispatch({ type: EDIT_JOB_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
     } catch (error) {
-      if(error.response.status === 401 ) return
+      if (error.response.status === 401) return;
       dispatch({
         type: EDIT_JOB_ERROR,
-        payload: {msg: error.response.data.msg}
-      })
+        payload: { msg: error.response.data.msg },
+      });
     }
-    cleartAlert()  
-  }
+    cleartAlert();
+  };
 
   const deleteJob = async (jobId) => {
-    dispatch({type: DELETE_JOB_BEGIN})
+    dispatch({ type: DELETE_JOB_BEGIN });
     try {
-      await authFetch.delete(`/jobs/${jobId}`)
-      getJobs()
+      await authFetch.delete(`/jobs/${jobId}`);
+      getJobs();
     } catch (error) {
       //console.log(error.response)
-      logoutUser()
+      logoutUser();
     }
   };
 
